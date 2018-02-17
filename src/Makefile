@@ -6,5 +6,4 @@ OBJS =  main.o ControlUnit.o Inputtape.o InputUnit.o OutputTape.o OutputUnit.o P
 all: ${OBJS}
 	$(CC) $(CXXFLAGS) -o ram_sim ${OBJS}
 
-clean:
-#rm -rf *.o practica
+

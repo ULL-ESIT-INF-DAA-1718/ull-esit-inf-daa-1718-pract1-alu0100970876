@@ -21,6 +21,7 @@ class ControlUnit{
     InputUnit inputunit;
     OutputUnit outputunit;
     string out;
+    vector<Etiqueta> etiquetas;
 
     void loadProgmem(string filename);
  

@@ -21,7 +21,7 @@ HALT  Detiene la ejecución del programa (28)
 */
 
 void ControlUnit::loadProgmem(string filename){
-    vector<Etiqueta> etiquetas;
+    
     int l_counter = 0;
     int instruccion;
     int data;
