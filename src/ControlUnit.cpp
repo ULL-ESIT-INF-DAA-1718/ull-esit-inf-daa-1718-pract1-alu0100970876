@@ -57,13 +57,15 @@ void ControlUnit::loadProgmem(string filename){
           }
           else if(instruccion[1] == "STORE" || instruccion[1] == "store"){
             if(instruccion[2][0] == '='){
-              progmem.addInstruccion(4, instruccion[2].substr(1, instruccion[2].size() - 1), l_counter);
+							cout << "Error en la linea " << l_counter << " =i no es valido en store" << endl;
+          		exit(0);
+              progmem.addInstruccion(4, instruccion[1].substr(1, instruccion[1].size() - 1), l_counter);
             }
             else if(instruccion[2][0] == '*'){
               progmem.addInstruccion(6, instruccion[2].substr(1, instruccion[2].size() - 1), l_counter);
             }
             else{
-              progmem.addInstruccion(5, instruccion[2], l_counter);
+              progmem.addInstruccion(4, instruccion[2], l_counter);
             }
           }
           else if(instruccion[1] == "ADD" || instruccion[1] == "add"){
@@ -112,13 +114,15 @@ void ControlUnit::loadProgmem(string filename){
           }
           else if(instruccion[1] == "READ" || instruccion[1] == "read"){
             if(instruccion[2][0] == '='){
-              progmem.addInstruccion(19, instruccion[2].substr(1, instruccion[2].size() - 1), l_counter);
+              cout << "Error en la linea " << l_counter << " =i no es valido en read" << endl;
+          		exit(0);
+              progmem.addInstruccion(19, instruccion[1].substr(1, instruccion[1].size() - 1), l_counter);
             }
             else if(instruccion[2][0] == '*'){
               progmem.addInstruccion(21, instruccion[2].substr(1, instruccion[2].size() - 1), l_counter);
             }
             else{
-              progmem.addInstruccion(20, instruccion[2], l_counter);
+              progmem.addInstruccion(19, instruccion[2], l_counter);
             }
           }
           else if(instruccion[1] == "WRITE" || instruccion[1] == "write"){
@@ -129,6 +133,10 @@ void ControlUnit::loadProgmem(string filename){
               progmem.addInstruccion(24, instruccion[2].substr(1, instruccion[2].size() - 1), l_counter);
             }
             else{
+              if(instruccion[1][0]  == '0'){
+                cout << "Error en la linea " << l_counter << " write 0 no es valido en read" << endl;
+          		  exit(0);
+              }
               progmem.addInstruccion(23, instruccion[2], l_counter);
             }
           }
@@ -167,13 +175,15 @@ void ControlUnit::loadProgmem(string filename){
           }
           else if(instruccion[0] == "STORE" || instruccion[0] == "store"){
             if(instruccion[1][0] == '='){
+							cout << "Error en la linea " << l_counter << " =i no es valido en store" << endl;
+          		exit(0);
               progmem.addInstruccion(4, instruccion[1].substr(1, instruccion[1].size() - 1), l_counter);
             }
             else if(instruccion[1][0] == '*'){
               progmem.addInstruccion(6, instruccion[1].substr(1, instruccion[1].size() - 1), l_counter);
             }
             else{
-              progmem.addInstruccion(5, instruccion[1], l_counter);
+              progmem.addInstruccion(4, instruccion[1], l_counter);//progmem.addInstruccion(5, instruccion[1], l_counter);
             }
           }
           else if(instruccion[0] == "ADD" || instruccion[0] == "add"){
@@ -222,13 +232,20 @@ void ControlUnit::loadProgmem(string filename){
           }
           else if(instruccion[0] == "READ" || instruccion[0] == "read"){
             if(instruccion[1][0] == '='){
+              cout << "Error en la linea " << l_counter << " =i no es valido en read" << endl;
+          		exit(0);
               progmem.addInstruccion(19, instruccion[1].substr(1, instruccion[1].size() - 1), l_counter);
             }
             else if(instruccion[1][0] == '*'){
+
               progmem.addInstruccion(21, instruccion[1].substr(1, instruccion[1].size() - 1), l_counter);
             }
             else{
-              progmem.addInstruccion(20, instruccion[1], l_counter);
+              if(instruccion[1].substr(1, instruccion[1].size() - 1) == "0"){
+                cout << "Error en la linea " << l_counter << " read 0 no es valido en read" << endl;
+          		  exit(0);
+              }
+              progmem.addInstruccion(19, instruccion[1], l_counter);//progmem.addInstruccion(20, instruccion[1], l_counter);
             }
           }
           else if(instruccion[0] == "WRITE" || instruccion[0] == "write"){
@@ -239,6 +256,10 @@ void ControlUnit::loadProgmem(string filename){
               progmem.addInstruccion(24, instruccion[1].substr(1, instruccion[1].size() - 1), l_counter);
             }
             else{
+              if(instruccion[1][0]  == '0'){
+                cout << "Error en la linea " << l_counter << " write 0 no es valido en read" << endl;
+          		  exit(0);
+              }
               progmem.addInstruccion(23, instruccion[1], l_counter);
             }
           }
@@ -293,6 +314,7 @@ HALT  Detiene la ejecución del programa (28)
 */
 void ControlUnit::compute(bool option){
   Instruccion dummy;
+  int contador = 0;
   bool next = true;
   do{
     dummy = progmem.programmem[ip];
@@ -317,7 +339,7 @@ void ControlUnit::compute(bool option){
         cout << outputunit.tape.outputtape[i] << " ";
       }
       cout << endl;
-      usleep(2000);
+      usleep(500000);
     } 
     switch(dummy.ident){
       case 1://load----------------------
@@ -341,7 +363,7 @@ void ControlUnit::compute(bool option){
         ip++;
         break;
       case 6:
-        datamem.memoria[datamem.memoria[datamem.memoria[stoi(dummy.value)]]] = datamem.memoria[0];
+        datamem.memoria[datamem.memoria[stoi(dummy.value)]] = datamem.memoria[0];//datamem.memoria[datamem.memoria[datamem.memoria[stoi(dummy.value)]]] = datamem.memoria[0];
         ip++;
         break;
       case 7://add-----------------------
@@ -401,7 +423,7 @@ void ControlUnit::compute(bool option){
         ip++;
         break;
       case 21:
-        datamem.memoria[datamem.memoria[datamem.memoria[stoi(dummy.value)]]] = inputunit.read();
+        datamem.memoria[datamem.memoria[stoi(dummy.value)]] = inputunit.read();//datamem.memoria[datamem.memoria[datamem.memoria[stoi(dummy.value)]]] = inputunit.read();
         ip++;
         break;
       case 22://write----------------------
@@ -473,8 +495,12 @@ void ControlUnit::compute(bool option){
       default:
         next = false;
     }
+    contador++;
   }while(next);
   outputunit.toFile(out);
+  if(!option){
+    cout << "Numero de instrucciones ejecutadas: " << contador << endl;
+  }
 }
 
 
