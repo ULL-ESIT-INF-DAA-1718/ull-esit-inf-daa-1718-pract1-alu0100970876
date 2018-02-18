@@ -1,8 +1,9 @@
 #include "OutPutTape.h"
 
 class OutputUnit{
+public:
   OutputTape tape;
-public: 
+ 
   void write(int data);
 
   void toFile(string fileName);

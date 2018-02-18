@@ -7,8 +7,9 @@ using namespace std;
 
 class InputTape{
   int index;
-  vector<int> inputtape;
 public:
+  vector<int> inputtape;
+
   InputTape(); 
 
   InputTape(string fileName); 

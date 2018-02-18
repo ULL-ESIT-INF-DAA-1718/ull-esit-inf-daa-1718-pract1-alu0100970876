@@ -1,9 +1,17 @@
 #include "ControlUnit.h"
 
-int main(void){
-  ControlUnit maquinaram = ControlUnit("test1.ram", "input.in", "output.out");
-  for(int i = 0; i < maquinaram.progmem.programmem.size(); i++)
-    cout << maquinaram.progmem.programmem[i].ident << " " << maquinaram.progmem.programmem[i].value << " " << maquinaram.progmem.programmem[i].linea << endl;
-  /*for(int i = 0; i < maquinaram.etiquetas.size(); i++)
-    cout << maquinaram.etiquetas[i].nombre << " " << maquinaram.etiquetas[i].fila << endl;*/
+int main(int argc, char* argv[]){
+  if(argc < 5){
+   cout << "Numero de argumentos incorrecto" << endl;
+  }
+  else{
+    ControlUnit maquinaram = ControlUnit(string(argv[1]), string(argv[2]), string(argv[3]));
+    if(string(argv[4]) == "debug"){
+      cout << "Debug mode" << endl;
+      maquinaram.compute(true);
+    }
+    else{
+      maquinaram.compute(false);
+    }
+  }
 }

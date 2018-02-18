@@ -1,8 +1,9 @@
 #include "InputTape.h"
 
 class InputUnit{
+public:
   InputTape tape;
-public: 
+ 
   InputUnit();
   InputUnit(string file);
 

@@ -271,9 +271,210 @@ void ControlUnit::loadProgmem(string filename){
 }
 
 ControlUnit::ControlUnit(string progmem, string inputtape, string outputtape){
+  ip = 0;
   out = outputtape;
   inputunit = InputUnit(inputtape);
   loadProgmem(progmem);
+  datamem.memoria.resize(1000);
+}
+/*
+LOAD op  El operando se carga en R 0 (1 cte | 2 directo | 3 indirecto)
+STORE op  El contenido de R 0 se almacena en la memoria según el operando (4 cte | 5 directo | 6 indirecto)
+ADD op  El operando se suma a R 0 y el resultado se almacena en R 0 (7 cte | 8 directo | 9 indirecto)
+SUB op  El operando se resta a R 0 y el resultado se almacena en R 0 (10 cte | 11 directo | 12 indirecto)
+MUL op  El operando multiplica a R 0 y el resultado se almacena en R 0 (13 cte | 14 directo | 15 indirecto)
+DIV op  El operando divide a R 0 y el resultado se almacena en R 0 (16 cte | 17 directo | 18 indirecto)
+READ op  Se lee un valor de la cinta de entrada y se almacena en la memoria según el operando (19 cte | 20 directo | 21 indirecto)
+WRITE op  Se escribe el operando en la cinta de salida (22 cte | 23 directo | 24 indirecto)
+JUMP etiq  El valor del registro IP se modifica para apuntar a la instrucción  identificada por la etiqueta (25)
+JZERO etiq El valor del registro IP se modifica para apuntar a la instrucción identificada por la etiqueta (si R 0 == 0) (26)
+JGTZ etiq El valor del registro IP se modifica para apuntar a la instrucción identificada por la etiqueta (si R 0 > 0) (27)
+HALT  Detiene la ejecución del programa (28)
+*/
+void ControlUnit::compute(bool option){
+  Instruccion dummy;
+  bool next = true;
+  do{
+    dummy = progmem.programmem[ip];
+    if(option){
+      cout << "-----------------------------------------------------------" << endl;
+      cout << "Instruction pointer: " << ip << endl;
+      cout << "Memoria de programa " << endl;
+      for(int i = 0; i < progmem.programmem.size(); i++){
+        cout << i <<  " ->Instruccion: " <<  progmem.programmem[i].ident << " Valor: " << progmem.programmem[i].value << " Linea: " << progmem.programmem[i].linea << endl;
+      }
+      cout << "Memoria de datos" << endl;
+      for(int i = 0; i < 10; i++){
+        cout << i << " -> " << datamem.memoria[i] << endl;
+      }
+      cout << "Cinta de entrada" << endl;
+      for(int i = 0; i < inputunit.tape.inputtape.size(); i++){
+        cout << inputunit.tape.inputtape[i] << " ";
+      }
+      cout << endl;
+      cout << "Cinta de Salida" << endl;
+      for(int i = 0; i < outputunit.tape.outputtape.size(); i++){
+        cout << outputunit.tape.outputtape[i] << " ";
+      }
+      cout << endl;
+      usleep(2000);
+    } 
+    switch(dummy.ident){
+      case 1://load----------------------
+        datamem.memoria[0] = stoi(dummy.value);
+        ip++;
+        break;
+      case 2:
+        datamem.memoria[0] = datamem.memoria[stoi(dummy.value)];
+        ip++;
+        break;
+      case 3:
+        datamem.memoria[0] = datamem.memoria[datamem.memoria[stoi(dummy.value)]];
+        ip++;
+        break;
+      case 4://store------------
+        datamem.memoria[stoi(dummy.value)] = datamem.memoria[0];
+        ip++;
+        break;
+      case 5:
+        datamem.memoria[datamem.memoria[stoi(dummy.value)]] = datamem.memoria[0];
+        ip++;
+        break;
+      case 6:
+        datamem.memoria[datamem.memoria[datamem.memoria[stoi(dummy.value)]]] = datamem.memoria[0];
+        ip++;
+        break;
+      case 7://add-----------------------
+        datamem.memoria[0] = datamem.memoria[0] + stoi(dummy.value);
+        ip++;
+        break;
+      case 8:
+        datamem.memoria[0] = datamem.memoria[0] + datamem.memoria[stoi(dummy.value)];
+        ip++;
+        break;
+      case 9:
+        datamem.memoria[0] = datamem.memoria[0] + datamem.memoria[datamem.memoria[stoi(dummy.value)]];
+        ip++;
+        break;
+      case 10://sub-------------------------
+        datamem.memoria[0] = datamem.memoria[0] - stoi(dummy.value);
+        ip++;
+        break;
+      case 11:
+        datamem.memoria[0] = datamem.memoria[0] - datamem.memoria[stoi(dummy.value)];
+        ip++;
+        break;
+      case 12:
+        datamem.memoria[0] = datamem.memoria[0] - datamem.memoria[datamem.memoria[stoi(dummy.value)]];
+        ip++;
+        break;
+      case 13://mul--------------------------
+        datamem.memoria[0] = datamem.memoria[0] * stoi(dummy.value);
+        ip++;
+        break;
+      case 14:
+        datamem.memoria[0] = datamem.memoria[0] * datamem.memoria[stoi(dummy.value)];
+        ip++;
+        break;
+      case 15:
+        datamem.memoria[0] = datamem.memoria[0] * datamem.memoria[datamem.memoria[stoi(dummy.value)]];
+        ip++;
+        break;
+      case 16://div--------------------
+        datamem.memoria[0] = datamem.memoria[0] / stoi(dummy.value);
+        ip++;
+        break;
+      case 17:
+       datamem.memoria[0] = datamem.memoria[0] / datamem.memoria[stoi(dummy.value)];
+        ip++;
+        break;
+      case 18:
+        datamem.memoria[0] = datamem.memoria[0] / datamem.memoria[datamem.memoria[stoi(dummy.value)]];
+        ip++;
+        break;
+      case 19://read----------------
+        datamem.memoria[stoi(dummy.value)] = inputunit.read();
+        ip++;
+        break;
+      case 20:
+        datamem.memoria[datamem.memoria[stoi(dummy.value)]] = inputunit.read();
+        ip++;
+        break;
+      case 21:
+        datamem.memoria[datamem.memoria[datamem.memoria[stoi(dummy.value)]]] = inputunit.read();
+        ip++;
+        break;
+      case 22://write----------------------
+        outputunit.write(stoi(dummy.value));
+        ip++;
+        break;
+      case 23:
+        outputunit.write(datamem.memoria[stoi(dummy.value)]);
+        ip++;
+        break;
+      case 24:
+        outputunit.write(datamem.memoria[datamem.memoria[stoi(dummy.value)]]);
+        ip++;
+        break;
+      case 25:{//jump--------------
+        int lineadummy = dummy.linea;
+        for(int i = 0; i < etiquetas.size(); i++){
+           if(etiquetas[i].nombre == dummy.value){
+             lineadummy = etiquetas[i].fila;
+           }
+        }
+        for(int i = 0; i < progmem.programmem.size(); i++){
+          if(progmem.programmem[i].linea == lineadummy){
+            ip = i;
+          }
+        }
+        break;
+       }
+      case 26:{//jzero-----------------
+        if(datamem.memoria[0] == 0){
+          int lineadummy = dummy.linea;
+		      for(int i = 0; i < etiquetas.size(); i++){
+		         if(etiquetas[i].nombre == dummy.value){
+		           lineadummy = etiquetas[i].fila;
+		         }
+		      }
+		      for(int i = 0; i < progmem.programmem.size(); i++){
+		        if(progmem.programmem[i].linea == lineadummy){
+		          ip = i;
+		        }
+		      }
+        }
+        else{
+          ip++;
+        }
+        break;
+      }
+      case 27://jgtz-------------------
+        if(datamem.memoria[0] > 0){
+          int lineadummy = dummy.linea;
+		      for(int i = 0; i < etiquetas.size(); i++){
+		         if(etiquetas[i].nombre == dummy.value){
+		           lineadummy = etiquetas[i].fila;
+		         }
+		      }
+		      for(int i = 0; i < progmem.programmem.size(); i++){
+		        if(progmem.programmem[i].linea == lineadummy){
+		          ip = i;
+		        }
+		      }
+        }
+        else{
+          ip++;
+        }
+        break;
+      case 28://halt-------------------
+        next = false;
+        break;
+      default:
+        next = false;
+    }
+  }while(next);
+  outputunit.toFile(out);
 }
 
-void ControlUnit::compute(int option){}
+

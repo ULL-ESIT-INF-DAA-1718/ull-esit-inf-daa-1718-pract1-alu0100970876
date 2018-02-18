@@ -5,8 +5,8 @@
 using namespace std;
 
 class OutputTape{
-  vector<int> outputtape;
 public:
+  vector<int> outputtape;
   OutputTape(); 
 
   void write(int data);

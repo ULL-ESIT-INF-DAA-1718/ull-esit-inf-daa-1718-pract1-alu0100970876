@@ -1,5 +1,5 @@
 #include "ProgramMemory.h"
-
+  Instruccion::Instruccion(){} 
   Instruccion::Instruccion(int a, string b, int c){
     ident = a;
     value = b;

@@ -7,7 +7,7 @@ class Instruccion{
    int ident;// entero que identifica el tipo de instruccion
    string value;//valor de la instruccion
    int linea;//linea del programa donde se encuentra
-
+  Instruccion();
   Instruccion(int a, string b, int c);
 };
 

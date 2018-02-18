@@ -5,6 +5,7 @@
 #include "OutputUnit.h"
 #include <regex>
 #include <sstream>
+#include <unistd.h>
 
 class Etiqueta{
 public:
@@ -29,5 +30,5 @@ class ControlUnit{
  
     ControlUnit(string progmem, string inputtape, string outputtape);
 
-    void compute(int option);
+    void compute(bool option);
 };
