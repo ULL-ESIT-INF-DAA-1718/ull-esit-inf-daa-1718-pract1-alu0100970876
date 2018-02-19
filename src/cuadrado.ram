@@ -1,0 +1,44 @@
+# Suponemos que la cinta de entrada se encuentra de la forma X Y
+# Guardamos el X en el registro 2
+           read 2
+# Guardamos y en el registro 3
+           read 3
+# cargamos en el acumulador (R0) la y
+           load 3
+# Si es mayor que 0 se salta a potencia, si es menor se finaliza el programa con 0 en la cinta
+           jgtz potencia
+           write =0
+           jump fin
+# Se le resta 1 a la Y
+potencia:  sub =1
+# Si es igual que 0 se salta a uno pues Y= 1
+           jzero uno
+# Guardamos el valor en el registro 3
+           store 3
+# Cargamos en el acc R2 (la X)
+           load 2
+# Multiplicamos el acc por R2 (la X)
+           mul 2
+# Guardamos el valor en el registro 4
+           store 4
+# Cargamos la Y modificada en el acc
+           load 3
+# Le restamos 1
+           sub =1
+# Si es mayor que 0 se sigue con la potencia
+           jgtz pot
+# Si es igual que 0 se ha terminado, por lo que se escribe ne la cinta el valor de R4 (la solucion)
+           write 4
+           jump fin
+pot:       store 3
+           load 4
+           mul 2
+           store 4
+           load 3
+           sub =1
+           jgtz pot
+           write 4
+           jump fin
+# Como X ^1 siempre es X, escribimos X
+uno:       write 2
+fin:       halt

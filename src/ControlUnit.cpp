@@ -5,21 +5,6 @@ Etiqueta::Etiqueta(string name, int num){
   fila = num;
 }
 
-/*
-LOAD op  El operando se carga en R 0 (1 cte | 2 directo | 3 indirecto)
-STORE op  El contenido de R 0 se almacena en la memoria según el operando (4 cte | 5 directo | 6 indirecto)
-ADD op  El operando se suma a R 0 y el resultado se almacena en R 0 (7 cte | 8 directo | 9 indirecto)
-SUB op  El operando se resta a R 0 y el resultado se almacena en R 0 (10 cte | 11 directo | 12 indirecto)
-MUL op  El operando multiplica a R 0 y el resultado se almacena en R 0 (13 cte | 14 directo | 15 indirecto)
-DIV op  El operando divide a R 0 y el resultado se almacena en R 0 (16 cte | 17 directo | 18 indirecto)
-READ op  Se lee un valor de la cinta de entrada y se almacena en la memoria según el operando (19 cte | 20 directo | 21 indirecto)
-WRITE op  Se escribe el operando en la cinta de salida (22 cte | 23 directo | 24 indirecto)
-JUMP etiq  El valor del registro IP se modifica para apuntar a la instrucción  identificada por la etiqueta (25)
-JZERO etiq El valor del registro IP se modifica para apuntar a la instrucción identificada por la etiqueta (si R 0 == 0) (26)
-JGTZ etiq El valor del registro IP se modifica para apuntar a la instrucción identificada por la etiqueta (si R 0 > 0) (27)
-HALT  Detiene la ejecución del programa (28)
-*/
-
 void ControlUnit::loadProgmem(string filename){
     
     int l_counter = 0;
@@ -298,6 +283,7 @@ ControlUnit::ControlUnit(string progmem, string inputtape, string outputtape){
   loadProgmem(progmem);
   datamem.memoria.resize(1000);
 }
+
 /*
 LOAD op  El operando se carga en R 0 (1 cte | 2 directo | 3 indirecto)
 STORE op  El contenido de R 0 se almacena en la memoria según el operando (4 cte | 5 directo | 6 indirecto)
@@ -312,6 +298,7 @@ JZERO etiq El valor del registro IP se modifica para apuntar a la instrucción i
 JGTZ etiq El valor del registro IP se modifica para apuntar a la instrucción identificada por la etiqueta (si R 0 > 0) (27)
 HALT  Detiene la ejecución del programa (28)
 */
+
 void ControlUnit::compute(bool option){
   Instruccion dummy;
   int contador = 0;
