@@ -1,7 +1,8 @@
-           loadf =10
+           loadf =10.5
            storef 1
-           loadf =11
+           loadf =11.5
            addf 1
+           addf =67.344433
            storef 1
            writef 1
 # Suponemos que la cinta de entrada se encuentra de la forma X Y

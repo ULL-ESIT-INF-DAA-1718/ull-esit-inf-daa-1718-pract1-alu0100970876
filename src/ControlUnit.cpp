@@ -360,7 +360,7 @@ void ControlUnit::loadProgmem(string filename){
             progmem.addInstruccion(27, instruccion[1], l_counter);
           }
           else if(instruccion[0] == "LOADF" || instruccion[0] == "loadf"){//flotantes con etiquetas-------------
-            if(instruccion[2][0] == '='){
+            if(instruccion[1][0] == '='){
               progmem.addInstruccion(29, instruccion[1].substr(1, instruccion[1].size() - 1), l_counter);
             }
             else if(instruccion[1][0] == '*'){
@@ -384,8 +384,8 @@ void ControlUnit::loadProgmem(string filename){
             }
           }
           else if(instruccion[0] == "ADDF" || instruccion[0] == "addf"){
-            if(instruccion[21][0] == '='){
-              progmem.addInstruccion(35, instruccion[2].substr(1, instruccion[2].size() - 1), l_counter);
+            if(instruccion[1][0] == '='){
+              progmem.addInstruccion(35, instruccion[1].substr(1, instruccion[2].size() - 1), l_counter);
             }
             else if(instruccion[1][0] == '*'){
               progmem.addInstruccion(37, instruccion[1].substr(1, instruccion[1].size() - 1), l_counter);
@@ -413,12 +413,12 @@ void ControlUnit::loadProgmem(string filename){
               progmem.addInstruccion(43, instruccion[1].substr(1, instruccion[1].size() - 1), l_counter);
             }
             else{
-              progmem.addInstruccion(42, instruccion[2], l_counter);
+              progmem.addInstruccion(42, instruccion[1], l_counter);
             }
           }
           else if(instruccion[0] == "DIVF" || instruccion[0] == "divf"){
             if(instruccion[1][0] == '='){
-              progmem.addInstruccion(44, instruccion[2].substr(1, instruccion[2].size() - 1), l_counter);
+              progmem.addInstruccion(44, instruccion[1].substr(1, instruccion[2].size() - 1), l_counter);
             }
             else if(instruccion[1][0] == '*'){
               progmem.addInstruccion(46, instruccion[1].substr(1, instruccion[1].size() - 1), l_counter);
@@ -440,7 +440,7 @@ void ControlUnit::loadProgmem(string filename){
               progmem.addInstruccion(47, instruccion[1], l_counter);
             }
           }
-          else if(instruccion[0] == "WRITEF" || instruccion[1] == "writef"){
+          else if(instruccion[0] == "WRITEF" || instruccion[0] == "writef"){
             if(instruccion[1][0] == '='){
               progmem.addInstruccion(50, instruccion[1].substr(1, instruccion[1].size() - 1), l_counter);
             }
@@ -452,7 +452,7 @@ void ControlUnit::loadProgmem(string filename){
                 cout << "Error en la linea " << l_counter << " writef 0 no es valido en read" << endl;
           		  exit(0);
               }
-              progmem.addInstruccion(51, instruccion[2], l_counter);
+              progmem.addInstruccion(51, instruccion[1], l_counter);
             }
           }
           else if(instruccion[0] == "JZEROF" || instruccion[0] == "jzerof"){
