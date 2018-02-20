@@ -19,7 +19,7 @@ using namespace std;
 class InputTape{
   int index;
 public:
-  vector<int> inputtape;
+  vector<float> inputtape;
 
 /** \brief Constructor por defecto
   * 
@@ -41,5 +41,5 @@ public:
   *
   * /return int dato
   */
-  int read(void);
+  float read(void);
 };

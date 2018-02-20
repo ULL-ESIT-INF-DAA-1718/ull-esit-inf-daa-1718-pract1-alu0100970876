@@ -3,7 +3,7 @@
   OutputTape::OutputTape(){
   } 
 
-  void OutputTape::write(int data){
+  void OutputTape::write(float data){
     outputtape.push_back(data);
   }
 

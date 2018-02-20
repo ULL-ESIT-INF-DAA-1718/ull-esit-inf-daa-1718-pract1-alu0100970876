@@ -17,7 +17,7 @@ using namespace std;
  */
 class OutputTape{
 public:
-  vector<int> outputtape;
+  vector<float> outputtape;
 
 /** \brief Constructor por defecto
   * 
@@ -31,7 +31,7 @@ public:
   *
   * Este metodo escribe un valor en la cinta de salida
   */
-  void write(int data);
+  void write(float data);
 
 /** \brief toFile
   * 

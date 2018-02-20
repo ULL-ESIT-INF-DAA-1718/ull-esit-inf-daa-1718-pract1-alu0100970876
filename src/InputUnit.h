@@ -35,5 +35,5 @@ public:
   *
   * /return int dato
   */
-  int read();
+  float read();
 };

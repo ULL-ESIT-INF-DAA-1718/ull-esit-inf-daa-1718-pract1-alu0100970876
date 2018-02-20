@@ -17,4 +17,5 @@ using namespace std;
 class DataMemory{
 public:
   vector<int> memoria; 
+  vector<float> memoriaflotante; 
 };

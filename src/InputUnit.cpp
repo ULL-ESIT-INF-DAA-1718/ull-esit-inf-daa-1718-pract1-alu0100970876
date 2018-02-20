@@ -6,6 +6,6 @@ InputUnit::InputUnit(string file){
   tape = InputTape(file);
 }
 
-int InputUnit::read(){
+float InputUnit::read(){
   return tape.read();
 }

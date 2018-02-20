@@ -1,13 +1,23 @@
+           loadf =10
+           storef 1
+           loadf =11
+           addf 1
+           storef 1
+           writef 1
 # Suponemos que la cinta de entrada se encuentra de la forma X Y
+
 # Guardamos el X en el registro 2
            read 2
 # Guardamos y en el registro 3
            read 3
 # cargamos en el acumulador (R0) la y
-           load 3
+           load 3           
 # Si es mayor que 0 se salta a potencia, si es menor se finaliza el programa con 0 en la cinta
            jgtz potencia
+           jzero cero
            write =0
+           jump fin
+cero:      write =1
            jump fin
 # Se le resta 1 a la Y
 potencia:  sub =1

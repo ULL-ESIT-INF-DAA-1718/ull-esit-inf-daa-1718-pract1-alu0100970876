@@ -1,6 +1,6 @@
 #include "OutputUnit.h"
 
-  void OutputUnit::write(int data){
+  void OutputUnit::write(float data){
     tape.write(data);
   }
 
